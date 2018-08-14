@@ -1,11 +1,40 @@
 <h1>Create a Song</h1>
 
-<%= form_for @song  do |f| %>
-  <%= f.label :title %>
-  <%= f.text_field :title %>
-  <br />
+<div class="row">
+  <%= form_for @song, class: 'col 12' do |f| %>
+    <div class="input_field">
+      <%= f.label 'Title:', for: :song_title %>
+      <%= f.text_field :title %>
+    </div>
 
-  <%= f.submit %>
-<% end %>
+    <div class="input_field">
+      <%= f.label 'Artist:', for: :song_artist_name %>
+      <%= f.text_field :artist_name %>
+    </div>
+
+    <div class="input_field">
+      <%= f.label 'Genre:', for: :song_genre_name %>
+  
+      <select id="song_genre_id" name="song[genre_name]">
+        <% Genre.all.each do |genre| %>
+          <option id="song_genre_<%= genre.id %>" value="<%= genre.name %>"><%= genre.name %></option>
+        <% end %>
+      </select>
+    </div>
+
+    <div class="input_field">
+      <% (1..2).each do |n| %>
+        <%= f.label "Notes #{n}", for: "song_note_#{n}" %>
+        <input type="text" id="song_notes_<%= n %>" name='song[note_contents][]' >
+      <% end %>
+    </div>
+
+    <div class="input_field">
+      <%= f.submit class: 'btn' %>
+    </div>
+
+  <% end %>
+
+</div>
 
 
