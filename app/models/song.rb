@@ -3,14 +3,6 @@ class Song < ActiveRecord::Base
   belongs_to :genre
   has_many :notes
 
-  def genre_name=(name)
-    self.genre = Genre.find_or_create_by(name: name)
-  end
-
-  def genre_name
-    self.genre ? self.genre.name : nil
-  end
-
   def artist_name=(name)
     self.artist = Artist.find_or_create_by(name: name)
   end
@@ -20,18 +12,18 @@ class Song < ActiveRecord::Base
   end
 
   def note_contents=(contents)
-      contents.each do |content|
-        note = Note.find_or_create_by(content: content)
-          self.notes << note if !content.empty?
-      end
-      #notes.delete_if(&:blank?)
-      #takes array notes "delete the element if it is blank"
+    contents.each do |content|
+      note = Note.find_or_create_by(content: content)
+
+      self.notes << note# if !note.empty?
+    end
   end
 
   def note_contents
+
     self.notes.map do |note|
       note.content
-    end
+    end.delete_if(&:blank?)
   end
 
 end
