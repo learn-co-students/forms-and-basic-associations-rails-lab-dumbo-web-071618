@@ -28,10 +28,8 @@ class Song < ActiveRecord::Base
   end
 
   def note_contents
-    notes_array = []
-    self.notes.each do |note|
-      notes_array << note.content
-    end
-    notes_array.delete_if(&:blank?)
+    self.notes.map do |note|
+      note.content
+    end.delete_if(&:blank?)
   end
 end
